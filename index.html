@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Transaction Info</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>CPFP Calculator</h1>
+    <p>This is a tool to help you calculate a fee rate to choose for a CPFP transaction, which will result in an effective fee rate for the original transaction that is very close to the current high prioirty fee rate.</p>
+    <p>IMPORTANT: This tool assumes the CPFP transaction will use 1 input and 1 output, the simpliest method of achieving a CPFP acceleration. It also assumes no other CPFP or RBF accelerations are involved.</p>
+    <form id="txid-form">
+        <label for="txid">Enter the TXID for the transaction you want to accelerate:</label>
+        <input type="text" id="txid" required>
+
+        <label for="input-type">CPFP Input Type:</label>
+        <select id="input-type" required>
+            <option value="P2SH">2-of-3 P2SH</option>
+            <option value="P2PKH">P2PKH</option>
+            <option value="P2WPKH">P2WPKH</option>
+            <option value="P2WSH">2-of-3 P2WSH</option>
+            <option value="P2TR">P2TR</option>
+        </select>
+
+        <label for="output-type">CPFP Output Type:</label>
+        <select id="output-type" required>
+            <option value="P2SH">P2SH</option>
+            <option value="P2PKH">P2PKH</option>
+            <option value="P2WPKH">P2WPKH</option>
+            <option value="P2WSH">P2WSH</option>
+            <option value="P2TR">P2TR</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+    
+    <h2>Parameters Used</h2>
+    <p><strong>Original Transaction Fee (sats):</strong> <span id="fee">N/A</span></p>
+    <p><strong>Original Transaction Size (vB):</strong> <span id="size">N/A</span></p>
+    <p><strong>CPFP Transaction Size (vB):</strong> <span id="cpfp-size">N/A</span></p>
+    <p><strong>Current High Priority Rate (sats/vB):</strong> <span id="fastest-fee">N/A</span></p>
+
+    <h2>Calculating the fee rate for CPFP</h2>
+    <p>This is the fee rate you should choose for your CPFP transaction in order to get an effective fee rate equal to the current high priority fee rate, for both transactions.</p>
+    <p><strong>CPFP Fee Rate (sats/vB):</strong> <span id="cpfp-fee-rate">N/A</span></p>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
