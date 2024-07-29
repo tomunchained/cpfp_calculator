@@ -9,19 +9,19 @@ document.getElementById('txid-form').addEventListener('submit', function(event) 
     let vsizecpfpinput;
     switch(inputType) {
         case 'P2PKH':
-            vsizecpfpinput = 158;
+            vsizecpfpinput = 158; // 148 + 10 vB overhead
             break;
         case 'P2SH':
-            vsizecpfpinput = 307;
+            vsizecpfpinput = 307; // 297 + 10 vB overhead
             break;
         case 'P2WPKH':
-            vsizecpfpinput = 78.5;
+            vsizecpfpinput = 78.5; // 68 + 10.5 vB overhead
             break;
         case 'P2WSH':
-            vsizecpfpinput = 115;
+            vsizecpfpinput = 115; // 104.5 + 10.5 vB overhead
             break;
         case 'P2TR':
-            vsizecpfpinput = 68;
+            vsizecpfpinput = 68; // 57.5 + 10.5 vB overhead
             break;
         default:
             vsizecpfpinput = 0;
@@ -62,7 +62,7 @@ document.getElementById('txid-form').addEventListener('submit', function(event) 
             return response.json();
         })
         .then(data => {
-            const weight = data.weight;  // Parameter for weight
+            const weight = data.weight;  // Parameter for weight units
             const fee = data.fee;
             const vsize = weight / 4;  // Convert weight to vB
             
@@ -78,7 +78,7 @@ document.getElementById('txid-form').addEventListener('submit', function(event) 
                     return response.json();
                 })
                 .then(feesData => {
-                    const fastestFee = feesData.fastestFee;  // Parameter for fastest fee
+                    const fastestFee = feesData.fastestFee;  // Parameter for high priority fee rate
                     document.getElementById('fastest-fee').textContent = fastestFee !== undefined ? fastestFee : 'Not Available'; // Add a fallback message
                     
                     // Calculate CPFP Fee Rate
