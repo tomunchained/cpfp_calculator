@@ -66,8 +66,12 @@ document.getElementById('txid-form').addEventListener('submit', function(event) 
             const fee = data.fee;
             const vsize = weight / 4;  // Convert weight to vB
             
-            document.getElementById('size').textContent = vsize !== undefined ? vsize.toFixed(2) : 'Not Available'; // Add a fallback message and format to 2 decimal places
-            document.getElementById('fee').textContent = fee !== undefined ? fee : 'Not Available';
+            document.getElementById('size').textContent = vsize !== undefined ? vsize.toLocaleString() : 'Not Available'; // Add a fallback message and format to 1 decimal place
+            document.getElementById('fee').textContent = fee !== undefined ? fee.toLocaleString() : 'Not Available';
+
+            // Calculate and display old fee rate
+            const oldfeerate = (fee / vsize).toFixed(2);
+            document.getElementById('oldfeerate').textContent = oldfeerate;
             
             // Fetch recommended fees
             fetch('https://mempool.space/api/v1/fees/recommended')
@@ -84,6 +88,10 @@ document.getElementById('txid-form').addEventListener('submit', function(event) 
                     // Calculate CPFP Fee Rate
                     const cpfpFeeRate = ((fastestFee * (vsize + vsizecpfp)) - fee) / vsizecpfp;
                     document.getElementById('cpfp-fee-rate').textContent = cpfpFeeRate.toFixed(2);
+
+                    // Calculate and display CPFP Fee
+                    const cpfpfee = (cpfpFeeRate * vsizecpfp).toLocaleString();
+                    document.getElementById('cpfp-fee').textContent = cpfpfee;
                 })
                 .catch(error => {
                     document.getElementById('fastest-fee').textContent = 'N/A';

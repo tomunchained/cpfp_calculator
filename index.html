@@ -9,44 +9,57 @@
 <body>
     <h1>CPFP Calculator</h1>
     <p>GitHub: <a href="https://github.com/tomunchained/cpfp_calculator">https://github.com/tomunchained/cpfp_calculator</a></p>
-    <p>This is a tool to help you calculate a fee rate to choose for a Child-Pays-For-Parent transaction, which will result in an effective fee rate for the original transaction that is very close to the current high prioirty fee rate.</p>
-    <p><b>Note:</b> This tool assumes the CPFP transaction will use 1 input and 1 output, the simpliest method of achieving a CPFP acceleration. It also assumes no other CPFP, RBF, or out-of-band accelerations are involved.</p>
-    <form id="txid-form">
-        <label for="txid">Enter the TXID for the transaction you want to accelerate:</label>
-        <input type="text" id="txid" required>
-        <p>Learn about input/output types <a href="https://unchained.com/blog/bitcoin-address-types-compared/">here</a>.</p>
-        <label for="input-type">CPFP Input Type:</label>
-        <select id="input-type" required>
-            <option value="P2SH">2-of-3 P2SH</option>
-            <option value="P2PKH">P2PKH</option>
-            <option value="P2WPKH">P2WPKH</option>
-            <option value="P2WSH">2-of-3 P2WSH</option>
-            <option value="P2TR">P2TR</option>
-        </select>
-
-        <label for="output-type">CPFP Output Type:</label>
-        <select id="output-type" required>
-            <option value="P2SH">P2SH</option>
-            <option value="P2PKH">P2PKH</option>
-            <option value="P2WPKH">P2WPKH</option>
-            <option value="P2WSH">P2WSH</option>
-            <option value="P2TR">P2TR</option>
-        </select>
-
-        <button type="submit">Submit</button>
-    </form>
+    <p>This is a tool to help you calculate a fee rate to use for a Child-Pays-For-Parent transaction, which should result in an effective fee rate for the original transaction that is very close to the current high priority fee rate.</p>
+    <p><b>Note:</b> This tool assumes the CPFP transaction will use 1 input and 1 output, the simpliest method of achieving a CPFP acceleration. It also assumes no other accelerations are involved.</p>
+    <div class="container">    
+        <form id="txid-form">
+            <label for="txid">Enter the TXID for the transaction you want to accelerate:</label>
+            <input type="text" id="txid" required>
+            <div class="flex-container">
+                <div class="left">
+                    <label for="input-type">CPFP input type:</label>
+                    <select id="input-type" required>
+                        <option value="" selected disabled hidden></option>
+                        <option value="P2PKH">P2PKH (legacy singlesig)</option>
+                        <option value="P2SH">2-of-3 P2SH (legacy multisig)</option>
+                        <option value="P2WPKH">P2WPKH (segwit singlesig)</option>
+                        <option value="P2WSH">2-of-3 P2WSH (segwit multisig)</option>
+                        <option value="P2TR">P2TR (taproot)</option>
+                    </select>
+                </div>
+                <div class="right">
+                    <label for="output-type">CPFP output type:</label>
+                    <select id="output-type" required>
+                        <option value="" selected disabled hidden></option>
+                        <option value="P2PKH">P2PKH (legacy singlesig)</option>
+                        <option value="P2SH">P2SH (legacy multisig)</option>
+                        <option value="P2WPKH">P2WPKH (segwit singlesig)</option>
+                        <option value="P2WSH">P2WSH (segwit multisig)</option>
+                        <option value="P2TR">P2TR (taproot)</option>
+                    </select>
+                </div>
+            </div>
+            <p>The input type can be determined by examining the address you're spending from, to perform the CPFP. The output type corresponds to the new destination address. <a href="https://unchained.com/blog/bitcoin-address-types-compared/">Learn more</a> about address types.</p>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
     
-    <h2>Parameters Used</h2>
-    <p>Original Transaction Fee (sats): <span id="fee">N/A</span></p>
-    <p>Original Transaction Size (vB): <span id="size">N/A</span></p>
-    <p>CPFP Transaction Size (vB): <span id="cpfp-size">N/A</span></p>
-    <p>Current High Priority Rate (sats/vB): <span id="fastest-fee">N/A</span></p>
-
-    <h2>Result</h2>
-    <p><strong>CPFP Fee Rate (sats/vB):</strong> <span id="cpfp-fee-rate">N/A</span></p>
-    <p>This is the fee rate you should choose for your CPFP transaction in order to get an effective fee rate equal to the current high priority fee rate, for both transactions.</p>
-
-    
+    <div class="flex-container">
+        <div class="left">
+            <h2>Parameters Used</h2>
+            <p>Original Fee Rate (sats/vB): <span id="oldfeerate">N/A</span></p>
+            <p>Original Transaction Fee (sats): <span id="fee">N/A</span></p>
+            <p>Original Transaction Size (vB): <span id="size">N/A</span></p>
+            <p>CPFP Transaction Size (vB): <span id="cpfp-size">N/A</span></p>
+            <p>Current High Priority Rate (sats/vB): <span id="fastest-fee">N/A</span></p>
+        </div>
+        <div class="right">
+            <h2>Result</h2>
+            <p style="color: red; font-size: 18px;"><strong>CPFP Fee Rate (sats/vB): <span id="cpfp-fee-rate">N/A</span></strong></p>
+            <p>This is the fee rate you should choose for your CPFP transaction in order to get an effective fee rate approximately equal to the current high priority fee rate, for both transactions.</p>
+            <p>CPFP Fee (sats): <span id="cpfp-fee">N/A</span></p>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
